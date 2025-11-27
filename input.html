@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PARA MI PRINCESA<3</title>
+    <style>
+        body {
+            background-color: pink;
+            font-family: sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        button, input[type="text"] {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div id="pregunta-container">
+    <p id="pregunta">¿Me amas? 🥺</p>
+    <button id="siBtn">Sí</button>
+    <button id="noBtn">No</button>
+</div>
+
+<script>
+    const preguntaContainer = document.getElementById('pregunta-container');
+
+    const preguntas = [
+        {
+            pregunta: '¿Me amas? 🥺',
+            siText: 'Sí',
+            noText: 'No',
+            si: function() { cambiarPregunta(1); },
+            no: function() { cambiarPregunta(4); }
+        },
+        {
+            pregunta: '¿Mucho mucho? 🥺',
+            siText: 'Sí',
+            noText: 'No',
+            si: function() { cambiarPregunta(2); },
+            no: function() { cambiarPregunta(5); }
+        },
+        {
+            pregunta: '¿Estás contestando con tu corazoncito❤️ o solo por curiosidad💔?',
+            siText: 'Con todo mi corazón',
+            noText: 'Solo por curiosidad',
+            si: function() { cambiarPregunta(3); },
+            no: function() { cambiarPregunta(6); }
+        },
+        {
+            pregunta: '¿Estás diciendo la verdad? 🤨',
+            siText: 'Sí',
+            noText: 'No',
+            si: function() { cambiarPregunta(7); },
+            no: function() { cambiarPregunta(8); }
+        },
+        // Para el "No" de la primera pregunta
+        {
+            pregunta: '¿Segura? 😢',
+            siText: 'Sí',
+            noText: 'No sé',
+            si: function() { cambiarPregunta(9); },
+            no: function() { cambiarPregunta(10); }
+        },
+        // Para el "No" de la segunda pregunta
+        {
+            pregunta: '¿No mucho mucho? ¿Entonces cuánto? 😭',
+            siText: 'Un poco',
+            noText: 'Nada',
+            si: function() { cambiarPregunta(11); },
+            no: function() { cambiarPregunta(12); }
+        },
+        // Para el "Sí" de la tercera pregunta
+        {
+            pregunta: '¿Por qué no estás siendo sincera conmigo mi niña? 🥺',
+            siText: 'Porque no te amo',
+            noText: 'Porque si alv',
+            si: function() { cambiarPregunta(13); },
+            no: function() { cambiarPregunta(14); }
+        },
+        // Para el "No" de la tercera pregunta
+        {
+            pregunta: '¿Entonces estás dispuesta a hacer lo que dice la siguente presentación?',
+            siText: 'Obvio que sí',
+            noText: 'Claro que no',
+            si: function() { cambiarPregunta(15); },
+            no: function() { cambiarPregunta(16); }
+        },
+        // Para el "Sí" de la cuarta pregunta - RESPUESTA ABIERTA
+        {
+            pregunta: '¿Poque no, si yo te amo mucho mucho? 😔',
+            tipo: 'abierta',
+            procesar: function() {
+                const respuesta = document.getElementById('respuestaAbierta').value;
+                alert('¡Gracias por tu sinceridad! Tu respuesta: ' + respuesta);
+                cambiarPregunta(17); // Redirige a la siguiente pregunta después de la respuesta abierta
+            }
+        },
+        // Para el "No" de la cuarta pregunta
+        {
+            pregunta: '¿Por qué me mientes diciendo que me amas? 🥺',
+            siText: 'Porque te odio',
+            noText: 'No lo sé',
+            si: function() { cambiarPregunta(18); },
+            no: function() { cambiarPregunta(19); }
+        },
+        // Para el "Sí" de la pregunta 5
+        {
+            pregunta: '¿Quieres continuar? Recuerda que la curiosidad mato al gato 😔',
+            siText: 'Sí',
+            noText: 'No',
+            si: function() { cambiarPregunta(20); },
+            no: function() { cambiarPregunta(21); }
+        },
+        // Para el "No" de la pregunta 5
+        {
+            pregunta: '¿Crees que algún día seré digno de tener la atención de tu corazón? 😿',
+            siText: 'Obvio',
+            noText: 'Lo dudo',
+            si: function() { cambiarPregunta(22); },
+            no: function() { cambiarPregunta(23); }
+        },
+        // Para el "Sí" de la pregunta 6
+        {
+            pregunta: '¿Qué podría hacer para que me ames mucho mucho? 😭',
+            siText: 'Ser más tierno',
+            noText: 'REINICIAR',
+            si: function() { cambiarPregunta(24); },
+            no: function() { location.reload(); }
+        },
+        // Para el "No" de la pregunta 6
+        {
+            pregunta: 'Si no me amas mejor ya terminame y no me hagas sufrir más 😔',
+            siText: 'REINICIAR',
+            noText: 'REINICIAR',
+            si: function() { location.reload();},
+            no: function() { location.reload();}
+        },
+        // Para el "Sí" de la pregunta 7
+        {
+            pregunta: 'MMM ps gracias por tu deshonestidad ehh 🥲',
+            siText: 'REINICIAR',
+            noText: 'REINICIAR',
+            si: function() { location.reload(); },
+            no: function() { location.reload(); }
+        },
+        // Para el "No" de la pregunta 7
+        {
+            pregunta: 'Gachas por todo mi pequeña, pero mira la verdad si me dolio el mensaje de la otra vez y yo contigo si quiero hacer las cosas bien poque te amo y quiero tener toda mi vida contigo, asi que si me mandas por mensaje las cosas que no te gustan de mi podemos arreglarlo para que ya estemos bien poque siento que estamos fallando en algo mi niña, espero tu mensaje 🥺',
+            siText: 'REINICIAR',
+            noText: 'REINICIAR',
+            si: function() { location.reload(); },
+            no: function() { location.reload(); }
+        },
+        // Pregunta 17
+        {
+            pregunta: 'Ya llegaste lejos amor, te recomiendo que elijas la otra opción 😊',
+            siText: 'REINICIAR',
+            noText: 'REINICIAR',
+            si: function() { location.reload(); },
+            no: function() { location.reload(); }
+        },
+        // Pregunta 18
+        {
+            pregunta: 'Gachas por decirme, lo tomare en cuenta para mejorar eso 🥺',
+            siText: 'REINICIAR',
+            noText: 'REINICIAR',
+            si: function() { location.reload(); },
+            no: function() { location.reload(); }
+        },
+        // Pregunta 19
+        {
+            pregunta: 'Muchas gracias pero creo que es mejor que me lo digas de una vez😔',
+            siText: 'REINICIAR',
+            noText: 'REINICIAR',
+            si: function() { location.reload(); },
+            no: function() { location.reload(); }
+        },
+        // Pregunta 20
+        {
+            pregunta: 'Mentir es mentir, mejor dime la verdad y te dejo vivir con alguien que si ames 🥺',
+            siText: 'REINICIAR',
+            noText: 'REINICIAR',
+            si: function() { location.reload(); },
+            no: function() { location.reload(); }
+        },
+        // Pregunta 21
+        {
+            pregunta: 'Gracias por ser sincera conmigo, pero creo que si dudas de lo nuestro es mejor que me lo digas de una vez por todas 😭',
+            siText: 'REINICIAR',
+            noText: 'REINICIAR',
+            si: function() { location.reload(); },
+            no: function() { location.reload(); }
+        },
+        // Pregunta 22
+        {
+            pregunta: 'Muchas gracias hasta aqui llegaron las preguntas, creo que está mal que hayas puesto que no me amas así que mejor dimelo 😭',
+            siText: 'REINICIAR',
+            noText: 'REINICIAR',
+            si: function() { location.reload(); },
+            no: function() { location.reload(); }
+        },
+        // Pregunta 23
+        {
+            pregunta: 'Dime por mensaje que puedo hacer para que me ames mucho mucho 🥺',
+            siText: 'REINICIAR',
+            noText: 'REINICIAR',
+            si: function() { location.reload(); },
+            no: function() { location.reload(); }
+        },
+        // Pregunta 24
+        {
+            pregunta: 'Si lo dudas mejor dimelo de una vez 😔',
+            siText: 'REINICIAR',
+            noText: 'REINICIAR',
+            si: function() { location.reload(); },
+            no: function() { location.reload(); }
+        },
+        // Pregunta 25
+        {
+            pregunta: 'Lo intento amor pero con esta respuesta creo que no lo estoy logrando 😔',
+            siText: 'REINICIAR',
+        noText: 'REINICIAR',
+            si: function() { location.reload(); },
+            no: function() { location.reload(); }
+        }
+    ];
+
+    function cambiarPregunta(indice) {
+        if (indice >= preguntas.length) {
+            alert('¡Hemos terminado!');
+            return;
+        }
+
+        const p = preguntas[indice];
+
+        if (p.tipo === 'abierta') {
+            preguntaContainer.innerHTML = `
+                <p id="pregunta">${p.pregunta}</p>
+                <input type="text" id="respuestaAbierta" placeholder="Escribe tu respuesta aquí">
+                <button onclick="preguntas[${indice}].procesar()">Enviar</button>
+            `;
+        } else {
+            preguntaContainer.innerHTML = `
+                <p id="pregunta">${p.pregunta}</p>
+                <button id="siBtn">${p.siText || 'Sí'}</button>
+                <button id="noBtn">${p.noText || 'No'}</button>
+            `;
+
+            const siBtn = document.getElementById('siBtn');
+            const noBtn = document.getElementById('noBtn');
+
+            if (siBtn) siBtn.addEventListener('click', p.si || function() {});
+            if (noBtn) noBtn.addEventListener('click', p.no || function() {});
+        }
+    }
+
+    // Inicializar con la primera pregunta
+    cambiarPregunta(0);
+</script>
+
+</body>
+</html>
